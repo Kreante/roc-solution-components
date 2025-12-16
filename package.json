@@ -1,0 +1,17 @@
+{
+  "name": "evaluation-chart",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "WeWeb custom element: Evaluation Chart with customizable ordering",
+  "scripts": {
+    "serve": "weweb serve",
+    "build": "weweb build"
+  },
+  "devDependencies": {
+    "@weweb/cli": "^3.8.13"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
