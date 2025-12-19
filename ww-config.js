@@ -154,6 +154,69 @@ export default {
       },
       /* wwEditor:end */
     },
+    barWidth: {
+      label: { en: "Bar Width" },
+      type: "Number",
+      section: "style",
+      bindable: true,
+      defaultValue: 25,
+      options: {
+        min: 10,
+        max: 60,
+        step: 1,
+      },
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "number",
+        tooltip: "Height of each bar in pixels",
+      },
+      propertyHelp: {
+        tooltip: "Sets the height (thickness) of each evaluation bar",
+      },
+      /* wwEditor:end */
+    },
+    paddingLeft: {
+      label: { en: "Padding Left (%)" },
+      type: "Number",
+      section: "style",
+      bindable: true,
+      defaultValue: 5,
+      options: {
+        min: 0,
+        max: 20,
+        step: 1,
+      },
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "number",
+        tooltip: "Left padding percentage for the chart area",
+      },
+      propertyHelp: {
+        tooltip: "Space on the left side of the chart",
+      },
+      /* wwEditor:end */
+    },
+    paddingRight: {
+      label: { en: "Padding Right (%)" },
+      type: "Number",
+      section: "style",
+      bindable: true,
+      defaultValue: 5,
+      options: {
+        min: 0,
+        max: 20,
+        step: 1,
+      },
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "number",
+        tooltip: "Right padding percentage for the chart area",
+      },
+      propertyHelp: {
+        tooltip: "Space on the right side of the chart",
+      },
+      /* wwEditor:end */
+    },
     minBarSize: {
       label: { en: "Minimum Bar Size (%)" },
       type: "Number",

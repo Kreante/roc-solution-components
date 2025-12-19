@@ -1,7 +1,13 @@
 <template>
   <div class="evaluation-chart">
-    <!-- Chart container -->
-    <div class="chart-container">
+    <!-- Chart container with padding -->
+    <div 
+      class="chart-container"
+      :style="{
+        paddingLeft: `${paddingLeftResolved}%`,
+        paddingRight: `${paddingRightResolved}%`
+      }"
+    >
       <!-- Grid lines (1-7) -->
       <div class="grid-lines">
         <div
@@ -21,6 +27,7 @@
           v-for="(evaluation, idx) in sortedEvaluations"
           :key="idx"
           class="bar-row"
+          :style="{ height: `${barWidthResolved}px` }"
         >
           <div
             class="bar"
@@ -96,8 +103,16 @@ export default {
     isInEditor() {
       return !!this.wwEditorState;
     },
+    barWidthResolved() {
+      return clampNumber(this.content?.barWidth ?? 25, 10, 60);
+    },
+    paddingLeftResolved() {
+      return clampNumber(this.content?.paddingLeft ?? 5, 0, 20);
+    },
+    paddingRightResolved() {
+      return clampNumber(this.content?.paddingRight ?? 5, 0, 20);
+    },
     minBarSizeResolved() {
-      // Minimum percentage width to ensure visibility even for score=1
       return clampNumber(this.content?.minBarSize ?? 8, 0, 20);
     },
     defaultBarColorResolved() {
@@ -157,13 +172,17 @@ export default {
 <style scoped>
 .evaluation-chart {
   width: 100%;
+  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .chart-container {
   position: relative;
   width: 100%;
-  padding-bottom: 30px; /* Space for x-axis numbers */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .grid-lines {
@@ -185,15 +204,16 @@ export default {
 
 .bars-area {
   position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: space-evenly;
   padding: 10px 0;
 }
 
 .bar-row {
   position: relative;
-  height: 28px;
+  flex-shrink: 0;
 }
 
 .bar {
@@ -231,11 +251,10 @@ export default {
 }
 
 .x-axis-numbers {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex-shrink: 0;
+  position: relative;
   height: 30px;
+  margin-top: auto;
 }
 
 .x-number {
