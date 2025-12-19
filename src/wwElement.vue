@@ -1,72 +1,80 @@
 <template>
   <div class="evaluation-chart">
-    <!-- Chart area - contains grid lines, bars, and x-axis numbers -->
-    <div class="chart-area">
-      <!-- Grid lines (1-7) -->
-      <div class="grid-lines">
-        <div
-          v-for="n in 7"
-          :key="n"
-          class="grid-line"
-          :style="{
-            left: `${((n - 1) / 6) * 100}%`,
-            borderColor: gridLinesColorResolved
-          }"
-        ></div>
-      </div>
+    <div class="chart-container">
+      <!-- Left padding for alignment -->
+      <div class="chart-side-padding"></div>
 
-      <!-- Bars area -->
-      <div class="bars-area">
-        <div
-          v-for="(evaluation, idx) in sortedEvaluations"
-          :key="idx"
-          class="bar-row"
-        >
+      <div class="chart-content">
+        <!-- Grid lines (1-7) -->
+        <div class="grid-lines">
           <div
-            class="bar"
+            v-for="n in 7"
+            :key="n"
+            class="grid-line"
             :style="{
-              width: evaluation.width,
-              backgroundColor: evaluation.color,
-              minWidth: '8px'
+              left: `${((n - 1) / 6) * 100}%`,
+              borderColor: gridLinesColorResolved
             }"
-            @mouseenter="hoveredBar = idx"
-            @mouseleave="hoveredBar = null"
+          ></div>
+        </div>
+
+        <!-- Bars area -->
+        <div class="bars-area">
+          <div
+            v-for="(evaluation, idx) in sortedEvaluations"
+            :key="idx"
+            class="bar-row"
+            :style="{ height: `${barWidthResolved}px` }"
           >
-            <!-- Tooltip -->
             <div
-              v-if="hoveredBar === idx"
-              class="tooltip"
+              class="bar"
               :style="{
-                backgroundColor: tooltipBackgroundColorResolved,
-                color: tooltipTextColorResolved
+                width: evaluation.width,
+                backgroundColor: evaluation.color,
+                minWidth: '8px'
               }"
+              @mouseenter="hoveredBar = idx"
+              @mouseleave="hoveredBar = null"
             >
-              {{ evaluation.label }}: {{ evaluation.score }}
+              <!-- Tooltip -->
+              <div
+                v-if="hoveredBar === idx"
+                class="tooltip"
+                :style="{
+                  backgroundColor: tooltipBackgroundColorResolved,
+                  color: tooltipTextColorResolved
+                }"
+              >
+                {{ evaluation.label }}: {{ evaluation.score }}
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- X-Axis line -->
+        <div
+          class="x-axis"
+          :style="{ borderColor: xAxisColorResolved }"
+        ></div>
+
+        <!-- X-Axis numbers -->
+        <div class="x-axis-numbers">
+          <span
+            v-for="n in 7"
+            :key="n"
+            class="x-number"
+            :style="{
+              left: `${((n - 1) / 6) * 100}%`,
+              color: numbersColorResolved
+            }"
+          >
+            {{ n }}
+          </span>
+        </div>
       </div>
 
-      <!-- X-Axis line -->
-      <div
-        class="x-axis"
-        :style="{ borderColor: xAxisColorResolved }"
-      ></div>
-
-      <!-- X-Axis numbers -->
-      <div class="x-axis-numbers">
-        <span
-          v-for="n in 7"
-          :key="n"
-          class="x-number"
-          :style="{
-            left: `${((n - 1) / 6) * 100}%`,
-            color: numbersColorResolved
-          }"
-        >
-          {{ n }}
-        </span>
-      </div>
+      <!-- Right padding for alignment -->
+      <div class="chart-side-padding"></div>
     </div>
   </div>
 </template>
@@ -98,6 +106,9 @@ export default {
     },
     minBarSizeResolved() {
       return clampNumber(this.content?.minBarSize ?? 8, 0, 20);
+    },
+    barWidthResolved() {
+      return clampNumber(this.content?.barWidth ?? 20, 8, 50);
     },
     defaultBarColorResolved() {
       return this.content?.defaultBarColor || "#90EE90";
@@ -157,15 +168,25 @@ export default {
 .evaluation-chart {
   width: 100%;
   height: 100%;
-  padding: 20px 40px;
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 20px 0;
 }
 
-.chart-area {
-  position: relative;
+.chart-container {
+  display: flex;
   width: 100%;
   height: 100%;
+}
+
+.chart-side-padding {
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.chart-content {
+  position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
@@ -192,12 +213,14 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 12px; /* Espacio entre barras */
+  padding-bottom: 30px; /* Alineado con el eje X */
 }
 
 .bar-row {
   position: relative;
-  height: 20px;
+  width: 100%;
 }
 
 .bar {
@@ -235,10 +258,11 @@ export default {
 }
 
 .x-axis-numbers {
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 30px;
-  flex-shrink: 0;
-  margin-top: auto;
 }
 
 .x-number {

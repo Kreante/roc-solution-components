@@ -177,6 +177,27 @@ export default {
       },
       /* wwEditor:end */
     },
+    barWidth: {
+      label: { en: "Bar Width" },
+      type: "Number",
+      section: "style",
+      bindable: true,
+      defaultValue: 20,
+      options: {
+        min: 8,
+        max: 50,
+        step: 1,
+      },
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "number",
+        tooltip: "Thickness of each bar in pixels",
+      },
+      propertyHelp: {
+        tooltip: "Sets the height/thickness of the evaluation bars",
+      },
+      /* wwEditor:end */
+    },
   },
 };
 
