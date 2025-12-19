@@ -1,13 +1,7 @@
 <template>
   <div class="evaluation-chart">
-    <!-- Chart container with padding -->
-    <div 
-      class="chart-container"
-      :style="{
-        paddingLeft: `${paddingLeftResolved}%`,
-        paddingRight: `${paddingRightResolved}%`
-      }"
-    >
+    <!-- Chart area - contains grid lines, bars, and x-axis numbers -->
+    <div class="chart-area">
       <!-- Grid lines (1-7) -->
       <div class="grid-lines">
         <div
@@ -27,7 +21,6 @@
           v-for="(evaluation, idx) in sortedEvaluations"
           :key="idx"
           class="bar-row"
-          :style="{ height: `${barWidthResolved}px` }"
         >
           <div
             class="bar"
@@ -103,15 +96,6 @@ export default {
     isInEditor() {
       return !!this.wwEditorState;
     },
-    barWidthResolved() {
-      return clampNumber(this.content?.barWidth ?? 25, 10, 60);
-    },
-    paddingLeftResolved() {
-      return clampNumber(this.content?.paddingLeft ?? 5, 0, 20);
-    },
-    paddingRightResolved() {
-      return clampNumber(this.content?.paddingRight ?? 5, 0, 20);
-    },
     minBarSizeResolved() {
       return clampNumber(this.content?.minBarSize ?? 8, 0, 20);
     },
@@ -173,16 +157,17 @@ export default {
 .evaluation-chart {
   width: 100%;
   height: 100%;
+  padding: 20px 40px;
+  box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.chart-container {
+.chart-area {
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
 .grid-lines {
@@ -208,12 +193,11 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 10px 0;
 }
 
 .bar-row {
   position: relative;
-  flex-shrink: 0;
+  height: 20px;
 }
 
 .bar {
@@ -251,9 +235,9 @@ export default {
 }
 
 .x-axis-numbers {
-  flex-shrink: 0;
   position: relative;
   height: 30px;
+  flex-shrink: 0;
   margin-top: auto;
 }
 
