@@ -215,7 +215,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   gap: 12px; /* Espacio entre barras */
-  padding-bottom: 30px; /* Alineado con el eje X */
+  padding: 20px 0 50px 0; /* Margen superior e inferior (incluyendo 30px del eje X) */
 }
 
 .bar-row {
