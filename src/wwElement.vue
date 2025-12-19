@@ -180,7 +180,7 @@ export default {
 }
 
 .chart-side-padding {
-  width: 40px;
+  width: calc(100% / 14); /* 0.5 unidades de un total de 7 (0.5 + 6 + 0.5) */
   flex-shrink: 0;
 }
 
@@ -214,7 +214,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 12px; /* Espacio entre barras */
+  gap: 24px; /* Espacio entre barras incrementado */
   padding: 20px 0 50px 0; /* Margen superior e inferior (incluyendo 30px del eje X) */
 }
 
